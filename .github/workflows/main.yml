@@ -16,6 +16,5 @@ jobs:
         regex: '.*datetime.*'
         match: 0
         lines: 0
-    # Use the output from the `hello` step
     - name: Get the output
       run: echo "${{ steps.copyrightscan.outputs.filelist }}"
