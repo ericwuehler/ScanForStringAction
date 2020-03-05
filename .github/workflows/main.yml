@@ -8,7 +8,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Scan Step
-      uses: ericwuehler/ScanForStringAction@v1
+      uses: ericwuehler/ScanForStringAction@master
       id: copyrightscan
       with:
         codefolders: './'
