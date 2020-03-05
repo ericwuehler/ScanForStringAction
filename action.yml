@@ -1,0 +1,36 @@
+name: 'Scan for String'
+description: 'Searches your code for a string or the absence thereof'
+inputs:
+  codefolders:
+    description: 'Source code folders to scan, separated by ":"'
+    require: true
+    default: './'
+  fileextensions:
+    description: 'File extensions to search for separated by ","'
+    require: true
+    default: '.c,.java,.py'
+  regex:
+    description: 'Regex that defines the string to search for'
+    require: true
+    default: '.*[Cc]opyright.*'
+  match:
+    description: 'Set this to 1 to search for files that match, 0 for files that do not'
+    required: true
+    default: 1
+  lines:
+    description: 'Read the first N lines of the file to find the string, 0 = Entire file'
+    require: true
+    default: 0
+outputs:
+  filelist:
+    description: 'The list of files that meet criteria'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.codefolders }}
+    - ${{ inputs.fileextensions }}
+    - ${{ inputs.regex }}
+    - ${{ inputs.match }}
+    - ${{ inputs.lines }}
+    

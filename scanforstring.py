@@ -19,7 +19,7 @@ __version__ = "1.0.0"
 codefolders="."
 fileextensions=".c,.java,.py"
 regex=".*[Cc]opyright.*"
-nomatch=False
+match=1
 numlines=0
 
 def version():
@@ -27,7 +27,7 @@ def version():
     raise SystemExit()
 
 def scanargs():
-    global codefolders, fileextensions, regex, numlines, nomatch
+    global codefolders, fileextensions, regex, numlines, match
     description = (
             'Scan for String Action\n'
             '-----------------------------------------------'
@@ -43,7 +43,7 @@ def scanargs():
     parser.add_argument('-f', '--codefolders', help='Source code folders to scan separated by ":", e.g. /user/code1:/user/code2', default=codefolders)
     parser.add_argument('-e', '--fileextensions', help='File Extensions for these folders separated by ",", e.g. .c,.java,.py', default=fileextensions)
     parser.add_argument('-r', '--regex', help='Regex that defines the string, e.g. ".*[Cc]opyright.*"', default=regex)
-    parser.add_argument('-n', '--nomatch', action='store_true', help='Default is to find files that match, this finds files that don\'t match')
+    parser.add_argument('-m', '--match', help='1 to find files that match, 0 to find files that don\'t', default=match)
     parser.add_argument('-l', '--lines', help='Read the first N lines of the file to find the string (0 = entire file)', default=numlines)
     options = parser.parse_args()
     if isinstance(options, tuple):
@@ -67,8 +67,8 @@ def scanargs():
     if args.lines:
         numlines = int(args.lines)
 
-    if args.nomatch:
-        nomatch = args.nomatch
+    if args.match:
+        match = int(args.match)
 
     should_exit = False
 
@@ -128,13 +128,16 @@ def main():
                             nomatchfiles.append(reporelpath)
                         else:
                             matchfiles.append(reporelpath)
-        if nomatch == True:
+        if match == 0:
             print(f"No match {nomatchfiles} - {len(nomatchfiles)}")
         else:
             print(f"Match {matchfiles} - {len(matchfiles)}")
         print(f"Files that failed: {errorfiles}")
         print(f"Total Files: {totalcount} Match: {yescount} NoMatch: {nocount} (includes {len(errorfiles)} errors)") 
-
+        if match == 0:
+            return nomatchfiles
+        else:
+            return matchfiles        
     except KeyboardInterrupt:
         print("\nCancelling...\n")
     except Exception as ex:
