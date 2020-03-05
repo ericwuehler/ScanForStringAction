@@ -93,7 +93,7 @@ def main():
         else:
             print(f"looking for \"{regex}\" in the first {numlines} lines of code")
         for folder in codefolders:
-            reporoot = os.path.abspath(folder)
+            reporoot = os.path.abspath(os.path.expanduser(folder))
             print(f"Scanning folder {reporoot}")
             for root, dirs, files in os.walk(folder):
                 for filename in files:
