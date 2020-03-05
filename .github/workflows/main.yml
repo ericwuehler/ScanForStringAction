@@ -13,7 +13,7 @@ jobs:
       with:
         codefolders: './'
         fileextensions: '.md,.sh,.py'
-        regex: '.*Copy.*'
+        regex: '.*datetime.*'
         match: 0
         lines: 0
     # Use the output from the `hello` step
